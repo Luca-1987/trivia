@@ -65,21 +65,23 @@ export class GameService {
 
   public answerScenario(gameId: string, playerId: string, scenarioId: string): Answer | undefined {
     const game = this.getGameById(gameId);
-    const player = game.players.find((p) => p.id === playerId);
-    const scenario = game.scenarios.find((s) => s.id === scenarioId);
-
-    if (!game || !player || !scenario) {
-      return undefined;
+    if(game) {
+      const player = game.players.find((p) => p.id === playerId);
+      const scenario = game.scenarios.find((s) => s.id === scenarioId);
+      if (!player || !scenario) {
+        return undefined;
+      }
+  
+      const answer: Answer = {
+        id: uuidv4(),
+        player,
+        scenario,
+        game,
+        createdAt: new Date(),
+      };
+  
+      return answer;
     }
-
-    const answer: Answer = {
-      id: uuidv4(),
-      player,
-      scenario,
-      game,
-      createdAt: new Date(),
-    };
-
-    return answer;
+    return undefined;
   }
 }
