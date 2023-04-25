@@ -1,0 +1,28 @@
+version: '3'
+services:
+  couchbase:
+    image: couchbase:community
+    container_name: couchbase
+    ports:
+      - 8091:8091
+      - 8092:8092
+      - 8093:8093
+      - 8094:8094
+      - 11210:11210
+    environment:
+      - COUCHBASE_SERVER_USERNAME=jefe
+      - COUCHBASE_SERVER_PASSWORD=12345678
+    volumes:
+      - ./couchbase:/opt/couchbase/var
+  vite_docker:
+   image: node:alpine
+   container_name: vite_docker
+   entrypoint: /bin/sh
+   ports:
+     - 8000:8000
+   working_dir: /srv/app
+   volumes:
+     - type: bind
+       source: ./
+       target: /srv/app
+   tty: true
